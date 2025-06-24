@@ -266,6 +266,7 @@ name = "mcp-example"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
+    { name = "click" },
     { name = "google-api-python-client" },
     { name = "google-auth" },
     { name = "mcp", extra = ["cli"] },
@@ -273,6 +274,7 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
+    { name = "click", specifier = ">=8.1.8" },
     { name = "google-api-python-client", specifier = ">=2.169.0" },
     { name = "google-auth", specifier = ">=2.40.2" },
     { name = "mcp", extras = ["cli"], specifier = ">=1.9.0" },
