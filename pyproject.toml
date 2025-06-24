@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "click>=8.1.8",
+    "email-validator>=2.2.0",
     "google-api-python-client>=2.169.0",
     "google-auth>=2.40.2",
     "mcp[cli]>=1.9.0",
