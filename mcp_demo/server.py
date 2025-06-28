@@ -10,7 +10,7 @@ def add(a: int, b: int) -> int:
     return a + b
 
 
-@mcp.resource("greetings:/{name}")
+@mcp.resource("greetings://{name}")
 def get_greeting(name) -> str:
     """Get a personalized greeting"""
     return f"Hello {name}!"
