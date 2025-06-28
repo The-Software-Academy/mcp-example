@@ -5,9 +5,12 @@ description = "An example project using mcp for Gmail integration"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    "certifi>=2025.4.26",
     "click>=8.1.8",
     "email-validator>=2.2.0",
     "google-api-python-client>=2.169.0",
     "google-auth>=2.40.2",
-    "mcp[cli]>=1.9.0",
+    "imapclient>=3.0.1",
+    "mcp[cli]>=1.10.1",
+    "uvicorn>=0.34.3",
 ]
