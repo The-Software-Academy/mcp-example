@@ -1,0 +1,12 @@
+{
+    "servers": {
+    
+        "imap-demo-server": {
+            "type": "http",
+            "url": "http://127.0.0.1:8090/mcp/"
+        },
+        "mcp-demo-server": {
+            "url": "http://127.0.0.1:8000/sse"
+        }
+    }
+}
