@@ -1,12 +1,20 @@
 {
     "servers": {
-    
-        "imap-demo-server": {
+        // HTTP mode — requires the server to be running: uv run mcp-server
+        "gmail-mcp": {
             "type": "http",
-            "url": "http://127.0.0.1:8090/mcp/"
-        },
-        "mcp-demo-server": {
-            "url": "http://127.0.0.1:8000/sse"
+            "url": "http://localhost:8001/mcp/"
         }
+        // Stdio alternative — VS Code spawns the server automatically, no manual start needed.
+        // Uncomment and remove the http entry above to switch to this mode.
+        // "gmail-mcp": {
+        //     "type": "stdio",
+        //     "command": "uv",
+        //     "args": ["run", "mcp-server", "--stdio"],
+        //     "env": {
+        //         "GMAIL_CREDENTIALS_PATH": "credentials/credentials.json",
+        //         "GMAIL_TOKEN_PERSISTENCY_PATH": "credentials/token.json"
+        //     }
+        // }
     }
 }

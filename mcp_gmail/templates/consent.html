@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MCP Server — Authorize Access</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0 }
+    body { font-family: system-ui, sans-serif; background: #f5f5f5;
+            display: flex; align-items: center; justify-content: center;
+            min-height: 100vh; padding: 1rem }
+    .card { background: white; border-radius: 12px; padding: 2rem;
+             max-width: 440px; width: 100%; box-shadow: 0 4px 24px rgba(0,0,0,.1) }
+    h1 { font-size: 1.25rem; margin-bottom: .25rem }
+    .subtitle { color: #666; font-size: .9rem; margin-bottom: 1.5rem }
+    .client { background: #f0f4ff; border-radius: 8px; padding: 1rem;
+               margin-bottom: 1.5rem }
+    .client strong { display: block; font-size: 1rem }
+    .client small { color: #555; font-size: .85rem }
+    .scopes { margin-bottom: 1.5rem }
+    .scopes p { font-size: .875rem; color: #444; margin-bottom: .5rem }
+    .scopes ul { list-style: none; padding-left: 0 }
+    .scopes li::before { content: "✓ "; color: #2563eb }
+    .scopes li { font-size: .875rem; color: #333; padding: .2rem 0 }
+    .password-group { margin-bottom: 1.5rem }
+    .password-group label { display: block; font-size: .875rem; color: #444;
+                             margin-bottom: .4rem }
+    .password-group input { width: 100%; padding: .6rem .75rem; border: 1px solid #d1d5db;
+                             border-radius: 8px; font-size: .95rem; outline: none }
+    .password-group input:focus { border-color: #2563eb; box-shadow: 0 0 0 2px #dbeafe }
+    .error { color: #dc2626; font-size: .85rem; margin-bottom: 1rem }
+    .actions { display: flex; gap: .75rem }
+    .btn { flex: 1; padding: .75rem; border: none; border-radius: 8px;
+            font-size: .95rem; cursor: pointer; font-weight: 500 }
+    .btn-approve { background: #2563eb; color: white }
+    .btn-approve:hover { background: #1d4ed8 }
+    .btn-deny { background: #f3f4f6; color: #374151 }
+    .btn-deny:hover { background: #e5e7eb }
+    .warn { font-size: .8rem; color: #9ca3af; margin-top: 1rem; text-align: center }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Authorize Access</h1>
+    <p class="subtitle">An MCP client is requesting access to this server.</p>
+    <div class="client">
+      <strong>$client_name</strong>
+      <small>wants to connect to gmail-mcp</small>
+    </div>
+    <div class="scopes">
+      <p>This will grant:</p>
+      <ul>$scope_items</ul>
+    </div>
+    <form method="POST" action="/oauth/consent">
+      <input type="hidden" name="key" value="$key">
+      <div class="password-group">
+        <label for="token">MCP_AUTH_TOKEN (server password)</label>
+        <input type="password" id="token" name="token" placeholder="Enter MCP_AUTH_TOKEN value"
+               autocomplete="current-password" required>
+      </div>
+      $error_html
+      <div class="actions">
+        <button class="btn btn-deny" type="submit" name="action" value="deny">Deny</button>
+        <button class="btn btn-approve" type="submit" name="action" value="approve">Approve</button>
+      </div>
+    </form>
+    <p class="warn">Only approve if you recognise this client and trust it.</p>
+  </div>
+</body>
+</html>

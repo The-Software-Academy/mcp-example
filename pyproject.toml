@@ -1,16 +1,27 @@
 [project]
 name = "mcp-example"
-version = "0.1.0"
-description = "An example project using mcp for Gmail integration"
+version = "0.2.0"
+description = "State-of-the-art MCP server showcasing Gmail API, FastMCP patterns, auth, and all MCP primitives"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
-    "certifi>=2025.4.26",
-    "click>=8.1.8",
-    "email-validator>=2.2.0",
+    "fastmcp>=2.0.0",
     "google-api-python-client>=2.169.0",
     "google-auth>=2.40.2",
-    "imapclient>=3.0.1",
-    "mcp[cli]>=1.10.1",
+    "google-auth-oauthlib>=1.0.0",
     "uvicorn>=0.34.3",
+    "click>=8.1.8",
+    "pytz>=2024.1",
+    "python-dotenv>=1.0.0",
+    # Note: no anthropic SDK — summarization delegates to the host LLM via MCP sampling
 ]
+
+[project.scripts]
+mcp-server = "mcp_gmail.__main__:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["mcp_gmail"]

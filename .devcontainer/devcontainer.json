@@ -1,45 +1,54 @@
 {
-    "name": "Python 3 Dev Container",
+    "name": "MCP Gmail Server",
     "build": {
         "dockerfile": "Dockerfile"
     },
-    "features": {},
+    "features": {
+        "ghcr.io/devcontainers/features/node:1": {
+            "version": "20"
+        }
+    },
+    "forwardPorts": [8001],
+    "portsAttributes": {
+        "8001": {
+            "label": "MCP Server",
+            "onAutoForward": "notify",
+            "protocol": "http"
+        }
+    },
+    "containerEnv": {
+        "PYTHONUNBUFFERED": "1",
+        "GMAIL_CREDENTIALS_PATH": "${containerWorkspaceFolder}/credentials/credentials.json",
+        "GMAIL_TOKEN_PERSISTENCY_PATH": "${containerWorkspaceFolder}/credentials/token.json"
+    },
+    "postCreateCommand": "uv sync",
+    "mounts": [
+        "type=bind,source=${localEnv:HOME}/.ssh,target=/home/vscode/.ssh,consistency=cached"
+    ],
+    "remoteUser": "vscode",
     "customizations": {
         "vscode": {
             "settings": {
-                "github.copilot": {
-                    "enable": true,
-                    "advanced": {
-                        "tokenizer": "builtin"
-                    }
-                }
+                "python.defaultInterpreterPath": "/home/vscode/.local/bin/uv"
             },
             "extensions": [
                 "ms-python.python",
                 "ms-python.vscode-pylance",
                 "ms-python.debugpy",
                 "ms-python.mypy-type-checker",
+                "charliermarsh.ruff",
                 "ms-toolsai.jupyter",
                 "ms-toolsai.jupyter-keymap",
                 "ms-toolsai.jupyter-renderers",
-                "ms-toolsai.jupyter-slideshow",
-                "ms-toolsai.jupyter-cell-tags",
-                "ms-vscode.cpptools-extension-pack",
                 "ms-vscode.remote-containers",
                 "ms-vscode.gitblame",
                 "ms-azuretools.vscode-docker",
-                "ms-docker.docker-dx",
                 "github.copilot",
                 "github.copilot-chat",
                 "github.vscode-pull-request-github",
                 "bierner.markdown-preview-github-styles",
-                "bierner.markdown-mermaid",
-                "ms-vscode.vscode-websearchforcopilot"
+                "bierner.markdown-mermaid"
             ]
         }
-    },
-    "postCreateCommand": "uv sync",
-    "mounts": [
-        "type=bind,source=${localEnv:HOME}/.ssh,target=/home/vscode/.ssh"
-    ]
+    }
 }

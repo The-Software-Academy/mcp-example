@@ -8,3 +8,12 @@ wheels/
 
 # Virtual environments
 .venv
+
+# Credentials & secrets (never commit these)
+.env
+credentials/*.json
+!credentials/README.md
+
+# Editor / OS
+.DS_Store
+*.swp
