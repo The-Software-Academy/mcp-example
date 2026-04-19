@@ -430,6 +430,7 @@ class EmailSummary(BaseModel):
     subject: str
     sender: str
     snippet: str
+    thread_message_count: int = Field(1, description="Total number of messages in this thread.")
 
 
 class EmailMessage(BaseModel):
@@ -442,6 +443,7 @@ class EmailMessage(BaseModel):
     snippet: str
     body: str
     label_ids: list[str]
+    thread_message_count: int = Field(1, description="Total number of messages in this thread.")
 
 
 class EmailList(BaseModel):
@@ -797,6 +799,13 @@ async def list_emails(
 
     await ctx.debug(f"Found {len(raw)} message(s){', more available' if next_token else ''}")
     summaries: list[EmailSummary] = []
+
+    # Fetch thread sizes for unique thread IDs in this result set (one call per thread, not per message).
+    thread_counts: dict[str, int] = {}
+    for tid in {item["threadId"] for item in raw}:
+        t = svc.users().threads().get(userId="me", id=tid, format="metadata").execute()
+        thread_counts[tid] = len(t.get("messages", []))
+
     for item in raw:
         msg = svc.users().messages().get(
             userId="me", id=item["id"], format="metadata",
@@ -809,6 +818,7 @@ async def list_emails(
             subject=hdrs.get("Subject", "(no subject)"),
             sender=hdrs.get("From", ""),
             snippet=msg.get("snippet", ""),
+            thread_message_count=thread_counts.get(item["threadId"], 1),
         ))
 
     await ctx.info(f"Returned {len(summaries)} message(s){', next_page_token available' if next_token else ''}")
@@ -1003,6 +1013,8 @@ async def get_email(message_id: str, ctx: Context) -> EmailMessage:
     payload = msg.get("payload", {})
     hdrs = {h["name"]: h["value"] for h in payload.get("headers", [])}
 
+    thread = svc.users().threads().get(userId="me", id=msg["threadId"], format="metadata").execute()
+
     return EmailMessage(
         id=msg["id"],
         thread_id=msg["threadId"],
@@ -1013,6 +1025,7 @@ async def get_email(message_id: str, ctx: Context) -> EmailMessage:
         snippet=msg.get("snippet", ""),
         body=_decode_body(payload),
         label_ids=msg.get("labelIds", []),
+        thread_message_count=len(thread.get("messages", [])),
     )
 
 
