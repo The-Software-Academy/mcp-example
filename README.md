@@ -189,6 +189,12 @@ Configure `.vscode/mcp.json` (already in the repo):
 ### MCP Inspector
 
 ```bash
+# 1. Install Node.js (includes npx)
+#    macOS:  brew install node
+#    Ubuntu: sudo apt install nodejs npm
+#    Other:  https://nodejs.org
+
+# 2. Run MCP Inspector
 npx @modelcontextprotocol/inspector
 # Connect to: http://localhost:8001/mcp
 ```
